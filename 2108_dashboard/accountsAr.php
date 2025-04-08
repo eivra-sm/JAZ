@@ -193,7 +193,7 @@ function searchAccs($accs) {
                     <div class="bg-white tm-block h-100">
                         <div class="row">
                             <div class="col-md-8 col-sm-12">
-                                <h2 class="tm-block-title d-inline-block">Sales Summary</h2>
+                                <h2 class="tm-block-title d-inline-block">Archived Accounts</h2>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -217,8 +217,7 @@ function searchAccs($accs) {
                         foreach ($ar_accs as $user) {
                             $tr = "<tr>";
                             $tr .= "<td>";
-                            $id = $user['Account_ID
-                            '];
+                            $id = $user['Account_ID'];
                             $tr .= $user['Account_ID'];
                             $tr .= "</td>";
                             $tr .= "<td>";

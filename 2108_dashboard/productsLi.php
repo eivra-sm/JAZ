@@ -14,10 +14,10 @@ $sql = "SELECT * FROM product_lists";
 $prods = $conn->query($sql);
 
 // Call the function and store the returned arrays properly
-$resultArrays = searchAccs($prods);
+$resultArrays = searchProds($prods);
 $ar_prods = $resultArrays['prods'];
 
-function searchAccs($prods) {
+function searchProds($prods) {
     // Declare arrays inside the function
     $ar_prods = [];
 
@@ -33,7 +33,7 @@ function searchAccs($prods) {
             'Created_At' => $row["Created_At"]
         ];
         switch ($Obj['status']) {
-            case 0:
+            case 1:
                 $ar_prods[] = $Obj;
                 break;
         } }
@@ -188,11 +188,14 @@ function searchAccs($prods) {
             </div>
             <!-- row -->
             <div class="row tm-content-row tm-mt-big">
-            <div class="col-12 tm-col">
+                <div class="col-12 tm-col">
                     <div class="bg-white tm-block h-100">
                         <div class="row">
                             <div class="col-md-8 col-sm-12">
                                 <h2 class="tm-block-title d-inline-block">Products</h2>
+                            </div>
+                            <div class="col-md-4 col-sm-12 text-right">
+                                <a href="#" class="btn btn-small btn-primary" onclick="addUsers()" id="addBtn">Add Product</a>
                             </div>
                         </div>
                         
@@ -217,6 +220,7 @@ function searchAccs($prods) {
                         foreach ($ar_prods as $user) {
                             $tr = "<tr>";
                             $tr .= "<td>";
+                            $id = $user['Product_ID'];
                             $tr .= $user['Product_ID'];
                             $tr .= "</td>";
                             $tr .= "<td>";

@@ -14,10 +14,10 @@ $sql = "SELECT * FROM product_lists";
 $prods = $conn->query($sql);
 
 // Call the function and store the returned arrays properly
-$resultArrays = searchAccs($prods);
+$resultArrays = searchProds($prods);
 $ar_prods = $resultArrays['prods'];
 
-function searchAccs($prods) {
+function searchProds($prods) {
     // Declare arrays inside the function
     $ar_prods = [];
 
@@ -216,6 +216,7 @@ function searchAccs($prods) {
                         foreach ($ar_prods as $user) {
                             $tr = "<tr>";
                             $tr .= "<td>";
+                            $id = $user['Product_ID'];
                             $tr .= $user['Product_ID'];
                             $tr .= "</td>";
                             $tr .= "<td>";

@@ -35,7 +35,7 @@ function searchAccs($accs) {
             'Archived_At' => $row["Archived_At"]
         ];
         switch ($Obj['status']) {
-            case 0:
+            case 1:
                 $ar_accs[] = $Obj;
                 break;
         } }
@@ -193,7 +193,7 @@ function searchAccs($accs) {
                     <div class="bg-white tm-block h-100">
                         <div class="row">
                             <div class="col-md-8 col-sm-12">
-                                <h2 class="tm-block-title d-inline-block">Sales Summary</h2>
+                                <h2 class="tm-block-title d-inline-block">Accounts</h2>
                             </div>
                             <div class="col-md-4 col-sm-12 text-right">
                                 <a href="#" class="btn btn-small btn-primary" onclick="addUsers()" id="addBtn">Add Account</a>
@@ -222,8 +222,7 @@ function searchAccs($accs) {
                         foreach ($ar_accs as $user) {
                             $tr = "<tr>";
                             $tr .= "<td>";
-                            $id = $user['Account_ID
-                            '];
+                            $id = $user['Account_ID'];
                             $tr .= $user['Account_ID'];
                             $tr .= "</td>";
                             $tr .= "<td>";
