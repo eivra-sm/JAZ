@@ -2,4 +2,4 @@
 
 - Arvie M. Sinocruz
 - Zyann Lynn C. Mayo
-- Juliana P. Rojel
+- Juliana Rose P. Rogel
