@@ -7,38 +7,40 @@ $searchErr = '';
 $ar = array();
 $ar1 = array();
 // Initialize arrays BEFORE calling the function
-$ar_sales = array();
+$ar_accountsAr = array();
 
 // Fetch all accounts
-$sql = "SELECT * FROM sales_summary";
-$sales = $conn->query($sql);
+$sql = "SELECT * FROM accounts";
+$accs = $conn->query($sql);
 
 // Call the function and store the returned arrays properly
-$resultArrays = searchSales($sales);
-$ar_sales = $resultArrays['sales'];
+$resultArrays = searchAccs($accs);
+$ar_accs = $resultArrays['accs'];
 
-function searchSales($sales) {
+function searchAccs($accs) {
     // Declare arrays inside the function
-    $ar_sales = [];
-    $ar_salesArch = [];
+    $ar_accs = [];
 
-    while ($row = $sales->fetch_assoc()) {
+    while ($row = $accs->fetch_assoc()) {
         $Obj = [
-            'Sale_ID' => $row["Sale_ID"],
-            'Order_ID' => $row["Order_ID"],
-            'Price' => $row["Price"],
-            'Total_Amount' => $row["Total_Amount"],
-            'Payment_Status' => $row["Payment_Status"],
-            'Order_Status' => $row["Order_Status"],
-            'Order_Date' => $row["Order_Date"]
+            'Status_Archive' => $row["Status_Archive"],
+            'Account_ID' => $row["Account_ID"],
+            'Fullname' => $row["Fullname"],
+            'Email' => $row["Email"],
+            'User_lvl' => $row["User_lvl"],
+            'Birthday' => $row["Birthday"],
+            'Billing_Address' => $row["Billing_Address"],
+            'Pword' => $row["Pword"],
+            'Profile_Photo' => $row["Profile_Photo"],
+            'Archived_At' => $row["Archived_At"]
         ];
         switch ($Obj['status']) {
             case 0:
-                $ar_sales[] = $Obj;
+                $ar_accs[] = $Obj;
                 break;
         } }
     return [
-        'sales' => $ar_sales
+        'accs' => $ar_accs
     ];
 }
 
@@ -51,7 +53,7 @@ function searchSales($sales) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dashboard Admin Template by Tooplate.com</title>
+    <title>Accounts Page - Dashboard Template</title>
     <!--
 
     Template 2108 Dashboard
@@ -63,8 +65,6 @@ function searchSales($sales) {
     <!-- https://fonts.google.com/specimen/Open+Sans -->
     <link rel="stylesheet" href="css/fontawesome.min.css">
     <!-- https://fontawesome.com/ -->
-    <link rel="stylesheet" href="css/fullcalendar.min.css">
-    <!-- https://fullcalendar.io/ -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- https://getbootstrap.com/ -->
     <link rel="stylesheet" href="css/tooplate.css">
@@ -118,11 +118,9 @@ function searchSales($sales) {
     }
 </style>
 
-
-<body id="reportsPage">
-    <div class="" id="home">
-        <div class="container">
-            <div class="row">
+<body class="bg03">
+    <div class="container">
+    <div class="row">
                 <div class="col-12">
                     <nav class="navbar navbar-expand-xl navbar-light bg-light">
                         <a class="navbar-brand" href="#">
@@ -136,11 +134,11 @@ function searchSales($sales) {
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mx-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="#">Sales
+                                    <a class="nav-link" href="dashboard.php">Sales
                                         <span class="sr-only">(current)</span>
                                     </a>
                                 </li>
-                                <li class="nav-item dropdown">
+                                <li class="nav-item dropdown active">
                                     <a class="nav-link dropdown-toggle" href="customers.php" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
                                         Accounts List
@@ -189,52 +187,74 @@ function searchSales($sales) {
                     </nav>
                 </div>
             </div>
-            <!-- row -->
-            <div class="row tm-content-row tm-mt-big">
+        <!-- row -->
+        <div class="row tm-content-row tm-mt-big">
                 <div class="col-12 tm-col">
                     <div class="bg-white tm-block h-100">
                         <div class="row">
                             <div class="col-md-8 col-sm-12">
                                 <h2 class="tm-block-title d-inline-block">Sales Summary</h2>
                             </div>
+                            <div class="col-md-4 col-sm-12 text-right">
+                                <a href="#" class="btn btn-small btn-primary" onclick="addUsers()" id="addBtn">Add Account</a>
+                            </div>
                         </div>
+                        
                         <div class="table-responsive">
                         <table border="1">
                             <thead>
                             <tr>
-                                <th>Sale ID</th>
-                                <th>Order ID</th>
-                                <th>Price</th>
-                                <th>Total Amount</th>
-                                <th>Payment Status</th>
-                                <th>Order Status</th>
-                                <th>Order Date</th>
+                                <th>Account ID</th>
+                                <th>Fullname</th>
+                                <th>Email</th>
+                                <th>User_lvl</th>
+                                <th>Birthday</th>
+                                <th>Billing_Address</th>
+                                <th>Pword</th>
+                                <th>Profile_Photo</th>
+                                <th>Archived_At</th>
+                                <th>Edit</th>
+                                <th>Archive</th>
                             </tr>
                             </thead>
                             <tbody>
                     <?php
-                        foreach ($ar_sales as $user) {
+                        foreach ($ar_accs as $user) {
                             $tr = "<tr>";
                             $tr .= "<td>";
-                            $tr .= $user['Sale_ID'];
+                            $id = $user['Account_ID
+                            '];
+                            $tr .= $user['Account_ID'];
                             $tr .= "</td>";
                             $tr .= "<td>";
-                            $tr .= $user['Order_ID'];
+                            $tr .= $user['Fullname'];
                             $tr .= "</td>";
                             $tr .= "<td>";
-                            $tr .= $user['Price'];
+                            $tr .= $user['Email'];
                             $tr .= "</td>";
                             $tr .= "<td>";
-                            $tr .= $user['Total_Amount'];
+                            $tr .= $user['User_lvl'];
                             $tr .= "</td>";
                             $tr .= "<td>";
-                            $tr .= $user['Payment_Status'];
+                            $tr .= $user['Birthday'];
                             $tr .= "</td>";
                             $tr .= "<td>";
-                            $tr .= $user['Order_Status'];
+                            $tr .= $user['Billing_Address'];
                             $tr .= "</td>";
                             $tr .= "<td>";
-                            $tr .= $user['Order_Date'];
+                            $tr .= $user['Pword'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Profile_Photo'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Archived_At'];
+                            $tr .= "</td>";          
+                            $tr .= "<td>";
+                            $tr .= "<button class='btn' onclick='updateUsers($id)'>Edit</button>";
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= "<button class='btn' onclick='archiveUsers($id)'>Archive</button>";
                             $tr .= "</td>";
                             $tr .= "</tr>";
                             echo $tr;
@@ -246,26 +266,34 @@ function searchSales($sales) {
                     </div>
                 </div>
             </div>
-            <footer class="row tm-mt-small">
-                <div class="col-12 font-weight-light">
-                    <p class="d-inline-block tm-bg-black text-white py-2 px-4">
-                        Copyright &copy; 2018 Admin Dashboard . Created by
-                        <a rel="nofollow" href="https://www.tooplate.com" class="text-white tm-footer-link">Tooplate</a>
-                    </p>
-                </div>
-            </footer>
-        </div>
+        <footer class="row tm-mt-small">
+            <div class="col-12 font-weight-light">
+                <p class="d-inline-block tm-bg-black text-white py-2 px-4">
+                    Copyright &copy; 2018 Admin Dashboard . Created by
+                    <a rel="nofollow" href="https://www.tooplate.com" class="text-white tm-footer-link">Tooplate</a>
+                </p>
+            </div>
+        </footer>
     </div>
+
     <script src="js/jquery-3.3.1.min.js"></script>
     <!-- https://jquery.com/download/ -->
     <script src="js/bootstrap.min.js"></script>
     <!-- https://getbootstrap.com/ -->
     <script>
-        $(function () {
-            $('.tm-product-name').on('click', function () {
-                window.location.href = "edit-product.html";
-            });
-        })
+        function archiveUsers(id) {
+            let text = "Are you sure you want to \nArchive This Record?";
+            if(confirm(text) == true){
+                window.location="http://localhost/RadAl/archiveUsers.php?id="+id;
+            }
+        }
+        function addUsers() {
+            let confirmAction = confirm("Are you sure you want to add a new user?");
+            if (confirmAction) {
+                window.location = "http://localhost/RadAl/addUsers.php";
+            }
+        }
     </script>
 </body>
+
 </html>

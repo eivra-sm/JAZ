@@ -1,3 +1,51 @@
+<?php 
+include 'db_conn.php';
+session_start();?>
+
+<?php
+$searchErr = '';
+$ar = array();
+$ar1 = array();
+// Initialize arrays BEFORE calling the function
+$ar_accountsAr = array();
+
+// Fetch all accounts
+$sql = "SELECT * FROM accounts";
+$accs = $conn->query($sql);
+
+// Call the function and store the returned arrays properly
+$resultArrays = searchAccs($accs);
+$ar_accs = $resultArrays['accs'];
+
+function searchAccs($accs) {
+    // Declare arrays inside the function
+    $ar_accs = [];
+
+    while ($row = $accs->fetch_assoc()) {
+        $Obj = [
+            'Status' => $row["Status"],
+            'Account_ID' => $row["Account_ID"],
+            'Fullname' => $row["Fullname"],
+            'Email' => $row["Email"],
+            'User_lvl' => $row["User_lvl"],
+            'Birthday' => $row["Birthday"],
+            'Billing_Address' => $row["Billing_Address"],
+            'Pword' => $row["Pword"],
+            'Profile_Photo' => $row["Profile_Photo"],
+            'Archived_At' => $row["Archived_At"]
+        ];
+        switch ($Obj['status']) {
+            case 0:
+                $ar_accs[] = $Obj;
+                break;
+        } }
+    return [
+        'accs' => $ar_accs
+    ];
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,9 +70,57 @@
     <link rel="stylesheet" href="css/tooplate.css">
 </head>
 
+<style>
+    .table-responsive {
+        width: 100%;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    thead {
+        background-color: #343a40;
+        color: #ffffff;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        text-align: center;
+        border: 1px solid #dee2e6;
+        vertical-align: middle;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    tbody tr:hover {
+        background-color: #e9ecef;
+        cursor: pointer;
+    }
+
+    .tm-block-title {
+        font-weight: 600;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    /* Optional: Responsive behavior for small screens */
+    @media (max-width: 768px) {
+        th, td {
+            font-size: 0.9rem;
+            padding: 8px;
+        }
+    }
+</style>
+
 <body class="bg03">
     <div class="container">
-        <div class="row">
+    <div class="row">
                 <div class="col-12">
                     <nav class="navbar navbar-expand-xl navbar-light bg-light">
                         <a class="navbar-brand" href="#">
@@ -45,11 +141,11 @@
                                 <li class="nav-item dropdown active">
                                     <a class="nav-link dropdown-toggle" href="customers.php" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
-                                        Customers List
+                                        Accounts List
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="customersLi.php">Customers List</a>
-                                        <a class="dropdown-item" href="customersAr.php">Customers Archive</a>
+                                        <a class="dropdown-item" href="accountsLi.php">Accounts List</a>
+                                        <a class="dropdown-item" href="accountsAr.php">Accounts Archive</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -93,96 +189,74 @@
             </div>
         <!-- row -->
         <div class="row tm-content-row tm-mt-big">
-            <div class="tm-col tm-col-big">
-                <div class="bg-white tm-block">
-                    <div class="row">
-                        <div class="col-12">
-                            <h2 class="tm-block-title d-inline-block">Accounts</h2>
+                <div class="col-12 tm-col">
+                    <div class="bg-white tm-block h-100">
+                        <div class="row">
+                            <div class="col-md-8 col-sm-12">
+                                <h2 class="tm-block-title d-inline-block">Sales Summary</h2>
+                            </div>
                         </div>
-                    </div>
-                    <ol class="tm-list-group tm-list-group-alternate-color tm-list-group-pad-big">
-                        <li class="tm-list-group-item">
-                            Donec eget libero
-                        </li>
-                        <li class="tm-list-group-item">
-                            Nunc luctus suscipit elementum
-                        </li>
-                        <li class="tm-list-group-item">
-                            Maecenas eu justo maximus
-                        </li>
-                        <li class="tm-list-group-item">
-                            Pellentesque auctor urna nunc
-                        </li>
-                        <li class="tm-list-group-item">
-                            Sit amet aliquam lorem efficitur
-                        </li>
-                        <li class="tm-list-group-item">
-                            Pellentesque auctor urna nunc
-                        </li>
-                        <li class="tm-list-group-item">
-                            Sit amet aliquam lorem efficitur
-                        </li>
-                    </ol>
-                </div>
-            </div>
-            <div class="tm-col tm-col-big">
-                <div class="bg-white tm-block">
-                    <div class="row">
-                        <div class="col-12">
-                            <h2 class="tm-block-title">Edit Account</h2>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <form action="" class="tm-signup-form">
-                                <div class="form-group">
-                                    <label for="name">Account Name</label>
-                                    <input placeholder="Vulputate Eleifend Nulla" id="name" name="name" type="text" class="form-control validate">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Account Email</label>
-                                    <input placeholder="vulputate@eleifend.co" id="email" name="email" type="email" class="form-control validate">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input placeholder="******" id="password" name="password" type="password" class="form-control validate">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password2">Re-enter Password</label>
-                                    <input placeholder="******" id="password2" name="password2" type="password" class="form-control validate">
-                                </div>
-                                <div class="form-group">
-                                    <label for="phone">Phone</label>
-                                    <input placeholder="010-030-0440" id="phone" name="phone" type="tel" class="form-control validate">
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 col-sm-4">
-                                        <button type="submit" class="btn btn-primary">Update
-                                        </button>
-                                    </div>
-                                    <div class="col-12 col-sm-8 tm-btn-right">
-                                        <button type="submit" class="btn btn-danger">Delete Account
-                                        </button>
-                                    </div>
-                                </div>
-
-                            </form>
+                        <div class="table-responsive">
+                        <table border="1">
+                            <thead>
+                            <tr>
+                                <th>Account ID</th>
+                                <th>Fullname</th>
+                                <th>Email</th>
+                                <th>User_lvl</th>
+                                <th>Birthday</th>
+                                <th>Billing_Address</th>
+                                <th>Pword</th>
+                                <th>Profile_Photo</th>
+                                <th>Archived_At</th>
+                                <th>Restore</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                    <?php
+                        foreach ($ar_accs as $user) {
+                            $tr = "<tr>";
+                            $tr .= "<td>";
+                            $id = $user['Account_ID'];
+                            $tr .= $user['Account_ID'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Fullname'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Email'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['User_lvl'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Birthday'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Billing_Address'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Pword'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Profile_Photo'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Archived_At'];
+                            $tr .= "</td>";          
+                            $tr .= "<td>";
+                            $tr .= "<button class='btn' onclick='restoreUsers($id)'>Restore</button>";
+                            $tr .= "</td>";
+                            $tr .= "</tr>";
+                            echo $tr;
+                        }
+                    ?>
+                            </tbody>
+                        </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="tm-col tm-col-small">
-                <div class="bg-white tm-block">
-                    <h2 class="tm-block-title">Profile Image</h2>
-                    <img src="img/profile-image.png" alt="Profile Image" class="img-fluid">
-                    <div class="custom-file mt-3 mb-3">
-                        <input id="fileInput" type="file" style="display:none;" />
-                        <input type="button" class="btn btn-primary d-block mx-xl-auto" value="Upload New..." onclick="document.getElementById('fileInput').click();"
-                        />
-                    </div>
-                </div>
-            </div>
-        </div>
         <footer class="row tm-mt-small">
             <div class="col-12 font-weight-light">
                 <p class="d-inline-block tm-bg-black text-white py-2 px-4">
@@ -197,6 +271,14 @@
     <!-- https://jquery.com/download/ -->
     <script src="js/bootstrap.min.js"></script>
     <!-- https://getbootstrap.com/ -->
+    <script>
+        function restoreUsers(id) {
+            let text = "Are you sure you want to \nRestore This Account?";
+            if(confirm(text) == true){
+                window.location="http://localhost/RadAl/restoreUsers.php?id="+id;
+            }
+        }
+    </script>
 </body>
 
 </html>
