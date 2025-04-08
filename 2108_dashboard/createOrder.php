@@ -47,11 +47,11 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="customers.php" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
-                                        Customers List
+                                        Accounts List
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="customersLi.php">Customers List</a>
-                                        <a class="dropdown-item" href="customersAr.php">Customers Archive</a>
+                                        <a class="dropdown-item" href="accountsLi.php">Accounts List</a>
+                                        <a class="dropdown-item" href="accountsAr.php">Accounts Archive</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">

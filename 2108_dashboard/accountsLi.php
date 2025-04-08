@@ -7,7 +7,7 @@ $searchErr = '';
 $ar = array();
 $ar1 = array();
 // Initialize arrays BEFORE calling the function
-$ar_accountsAr = array();
+$ar_accs = array();
 
 // Fetch all accounts
 $sql = "SELECT * FROM accounts";
@@ -120,7 +120,7 @@ function searchAccs($accs) {
 
 <body class="bg03">
     <div class="container">
-    <div class="row">
+        <div class="row">
                 <div class="col-12">
                     <nav class="navbar navbar-expand-xl navbar-light bg-light">
                         <a class="navbar-brand" href="#">

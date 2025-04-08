@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 08, 2025 at 04:47 PM
+-- Generation Time: Apr 08, 2025 at 05:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `accounts` (
   `Status_Archive` int(11) NOT NULL,
-  `Account_ID` int(11) DEFAULT NULL,
+  `Account_ID` int(11) NOT NULL,
   `Fullname` varchar(100) DEFAULT NULL,
   `Email` varchar(30) NOT NULL,
   `User_lvl` int(11) DEFAULT 0,
@@ -93,6 +93,19 @@ CREATE TABLE `product_lists` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `review`
+--
+
+CREATE TABLE `review` (
+  `Review_ID` int(11) NOT NULL,
+  `Account_ID` int(11) NOT NULL,
+  `Review` text NOT NULL,
+  `Date_Posted` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sales_summary`
 --
 
@@ -109,6 +122,12 @@ CREATE TABLE `sales_summary` (
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `accounts`
+--
+ALTER TABLE `accounts`
+  ADD PRIMARY KEY (`Account_ID`);
 
 --
 -- Indexes for table `customers_info`
@@ -132,6 +151,13 @@ ALTER TABLE `product_lists`
   ADD PRIMARY KEY (`Product_ID`);
 
 --
+-- Indexes for table `review`
+--
+ALTER TABLE `review`
+  ADD PRIMARY KEY (`Review_ID`),
+  ADD KEY `Account_ID` (`Account_ID`);
+
+--
 -- Indexes for table `sales_summary`
 --
 ALTER TABLE `sales_summary`
@@ -141,6 +167,12 @@ ALTER TABLE `sales_summary`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `accounts`
+--
+ALTER TABLE `accounts`
+  MODIFY `Account_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customers_info`
@@ -161,6 +193,12 @@ ALTER TABLE `product_lists`
   MODIFY `Product_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `review`
+--
+ALTER TABLE `review`
+  MODIFY `Review_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `sales_summary`
 --
 ALTER TABLE `sales_summary`
@@ -176,6 +214,12 @@ ALTER TABLE `sales_summary`
 ALTER TABLE `order_lists`
   ADD CONSTRAINT `order_lists_ibfk_1` FOREIGN KEY (`Customer_ID`) REFERENCES `customers_info` (`ID`),
   ADD CONSTRAINT `order_lists_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product_lists` (`Product_ID`);
+
+--
+-- Constraints for table `review`
+--
+ALTER TABLE `review`
+  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`Account_ID`) REFERENCES `accounts` (`Account_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sales_summary`

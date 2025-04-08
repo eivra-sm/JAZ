@@ -1,3 +1,48 @@
+<?php 
+include 'db_conn.php';
+session_start();?>
+
+<?php
+$searchErr = '';
+$ar = array();
+$ar1 = array();
+// Initialize arrays BEFORE calling the function
+$ar_prod = array();
+
+// Fetch all accounts
+$sql = "SELECT * FROM product_lists";
+$prods = $conn->query($sql);
+
+// Call the function and store the returned arrays properly
+$resultArrays = searchAccs($prods);
+$ar_prods = $resultArrays['prods'];
+
+function searchAccs($prods) {
+    // Declare arrays inside the function
+    $ar_prods = [];
+
+    while ($row = $prods->fetch_assoc()) {
+        $Obj = [
+            'Product_ID' => $row["Product_ID"],
+            'Product_Name' => $row["Product_Name"],
+            'Descrip' => $row["Descrip"],
+            'Price' => $row["Price"],
+            'Stock' => $row["Stock"],
+            'Category' => $row["Category"],
+            'Images' => $row["Images"],
+            'Created_At' => $row["Created_At"]
+        ];
+        switch ($Obj['status']) {
+            case 0:
+                $ar_prods[] = $Obj;
+                break;
+        } }
+    return [
+        'prods' => $ar_prods
+    ];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,6 +69,54 @@
     <link rel="stylesheet" href="css/tooplate.css">
 </head>
 
+<style>
+    .table-responsive {
+        width: 100%;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    thead {
+        background-color: #343a40;
+        color: #ffffff;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        text-align: center;
+        border: 1px solid #dee2e6;
+        vertical-align: middle;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    tbody tr:hover {
+        background-color: #e9ecef;
+        cursor: pointer;
+    }
+
+    .tm-block-title {
+        font-weight: 600;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    /* Optional: Responsive behavior for small screens */
+    @media (max-width: 768px) {
+        th, td {
+            font-size: 0.9rem;
+            padding: 8px;
+        }
+    }
+</style>
+
 <body id="reportsPage">
     <div class="" id="home">
         <div class="container">
@@ -47,11 +140,11 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="customers.php" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
-                                        Customers List
+                                        Accounts List
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="customersLi.php">Customers List</a>
-                                        <a class="dropdown-item" href="customersAr.php">Customers Archive</a>
+                                        <a class="dropdown-item" href="accountsLi.php">Accounts List</a>
+                                        <a class="dropdown-item" href="accountsAr.php">Accounts Archive</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown active">
@@ -95,182 +188,71 @@
             </div>
             <!-- row -->
             <div class="row tm-content-row tm-mt-big">
-                <div class="col-xl-8 col-lg-12 tm-md-12 tm-sm-12 tm-col">
+            <div class="col-12 tm-col">
                     <div class="bg-white tm-block h-100">
                         <div class="row">
                             <div class="col-md-8 col-sm-12">
                                 <h2 class="tm-block-title d-inline-block">Products</h2>
-
-                            </div>
-                            <div class="col-md-4 col-sm-12 text-right">
-                                <a href="#" class="btn btn-small btn-primary">Add New Product</a>
                             </div>
                         </div>
+                        
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped tm-table-striped-even mt-3">
-                                <thead>
-                                    <tr class="tm-bg-gray">
-                                        <th scope="col">&nbsp;</th>
-                                        <th scope="col">Product Name</th>
-                                        <th scope="col" class="text-center">Units Sold</th>
-                                        <th scope="col" class="text-center">In Stock</th>
-                                        <th scope="col">Expire Date</th>
-                                        <th scope="col">&nbsp;</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">
-                                            <input type="checkbox" aria-label="Checkbox">
-                                        </th>
-                                        <td class="tm-product-name">1. In malesuada placerat (hover)</td>
-                                        <td class="text-center">145</td>
-                                        <td class="text-center">255</td>
-                                        <td>2018-10-28</td>
-                                        <td><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <input type="checkbox" aria-label="Checkbox">
-                                        </th>
-                                        <td class="tm-product-name">2. Aenean eget urna enim. Sed enim</td>
-                                        <td class="text-center">240</td>
-                                        <td class="text-center">260</td>
-                                        <td>2018-10-24</td>
-                                        <td><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <input type="checkbox" aria-label="Checkbox">
-                                        </th>
-                                        <td class="tm-product-name">3. Vivamus convallis tincidunt nisi</td>
-                                        <td class="text-center">360</td>
-                                        <td class="text-center">440</td>
-                                        <td>2019-02-14</td>
-                                        <td><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <input type="checkbox" aria-label="Checkbox">
-                                        </th>
-                                        <td class="tm-product-name">4. Donec semper massa eget</td>
-                                        <td class="text-center">445</td>
-                                        <td class="text-center">655</td>
-                                        <td>2019-03-22</td>
-                                        <td><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <input type="checkbox" aria-label="Checkbox">
-                                        </th>
-                                        <td class="tm-product-name">5. Donec semper massa eget</td>
-                                        <td class="text-center">445</td>
-                                        <td class="text-center">655</td>
-                                        <td>2019-03-22</td>
-                                        <td><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <input type="checkbox" aria-label="Checkbox">
-                                        </th>
-                                        <td class="tm-product-name">6. Donec semper massa eget</td>
-                                        <td class="text-center">445</td>
-                                        <td class="text-center">655</td>
-                                        <td>2019-03-22</td>
-                                        <td><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <input type="checkbox" aria-label="Checkbox">
-                                        </th>
-                                        <td class="tm-product-name">7. Donec semper massa eget</td>
-                                        <td class="text-center">445</td>
-                                        <td class="text-center">655</td>
-                                        <td>2019-03-22</td>
-                                        <td><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <input type="checkbox" aria-label="Checkbox">
-                                        </th>
-                                        <td class="tm-product-name">8. Donec semper massa eget</td>
-                                        <td class="text-center">445</td>
-                                        <td class="text-center">655</td>
-                                        <td>2019-03-22</td>
-                                        <td><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="tm-table-mt tm-table-actions-row">
-                            <div class="tm-table-actions-col-left">
-                                <button class="btn btn-danger">Delete Selected Items</button>
-                            </div>
-                            <div class="tm-table-actions-col-right">
-                                <span class="tm-pagination-label">Page</span>
-                                <nav aria-label="Page navigation" class="d-inline-block">
-                                    <ul class="pagination tm-pagination">
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <span class="tm-dots d-block">...</span>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">13</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">14</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-4 col-lg-12 tm-md-12 tm-sm-12 tm-col">
-                    <div class="bg-white tm-block h-100">
-                        <h2 class="tm-block-title d-inline-block">Product Categories</h2>
-                        <table class="table table-hover table-striped mt-3">
+                        <table border="1">
+                            <thead>
+                            <tr>
+                                <th>Product ID</th>
+                                <th>Product Name</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Category</th>
+                                <th>Images</th>
+                                <th>Created_At</th>
+                                <th>Edit</th>
+                                <th>Archive</th>
+                            </tr>
+                            </thead>
                             <tbody>
-                                <tr>
-                                    <td>1. Cras efficitur lacus</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>2. Pellentesque molestie</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>3. Sed feugiat nulla</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>4. Vestibulum varius arcu</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>5. Aenean eget urna enim</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>6. Condimentum viverra</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>7. In malesuada</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>8. Placerat</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>9. Donec semper</td>
-                                    <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
-                                </tr>
+                    <?php
+                        foreach ($ar_prods as $user) {
+                            $tr = "<tr>";
+                            $tr .= "<td>";
+                            $tr .= $user['Product_ID'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Product_Name'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Descrip'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Price'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Stock'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Category'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Images'];
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= $user['Created_At'];
+                            $tr .= "</td>";         
+                            $tr .= "<td>";
+                            $tr .= "<button class='btn' onclick='updateUsers($id)'>Edit</button>";
+                            $tr .= "</td>";
+                            $tr .= "<td>";
+                            $tr .= "<button class='btn' onclick='archiveUsers($id)'>Archive</button>";
+                            $tr .= "</td>";
+                            $tr .= "</tr>";
+                            echo $tr;
+                        }
+                    ?>
                             </tbody>
                         </table>
-
-                        <a href="#" class="btn btn-primary tm-table-mt">Add New Category</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -289,11 +271,12 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- https://getbootstrap.com/ -->
     <script>
-        $(function () {
-            $('.tm-product-name').on('click', function () {
-                window.location.href = "edit-product.html";
-            });
-        })
+        function restoreProducts(id) {
+            let text = "Are you sure you want to \nRestore This Product?";
+            if(confirm(text) == true){
+                window.location="http://localhost/RadAl/restoreProducts.php?id="+id;
+            }
+        }
     </script>
 </body>
 </html>

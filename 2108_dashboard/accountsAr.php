@@ -23,7 +23,7 @@ function searchAccs($accs) {
 
     while ($row = $accs->fetch_assoc()) {
         $Obj = [
-            'Status' => $row["Status"],
+            'Status_Archive' => $row["Status_Archive"],
             'Account_ID' => $row["Account_ID"],
             'Fullname' => $row["Fullname"],
             'Email' => $row["Email"],
@@ -217,7 +217,8 @@ function searchAccs($accs) {
                         foreach ($ar_accs as $user) {
                             $tr = "<tr>";
                             $tr .= "<td>";
-                            $id = $user['Account_ID'];
+                            $id = $user['Account_ID
+                            '];
                             $tr .= $user['Account_ID'];
                             $tr .= "</td>";
                             $tr .= "<td>";
