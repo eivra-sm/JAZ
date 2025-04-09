@@ -1,9 +1,13 @@
 <?php
 include 'db_connection.php';
 
+$sql_super_admin = "SELECT Profile_Photo FROM customers_info WHERE User_lvl = 1";
+$result_super_admin = $conn->query($sql_super_admin);
+$super_admin = $result_super_admin->fetch_assoc();
+$profile_photo = $super_admin ? $super_admin['Profile_Photo'] : 'default-profile.png';
+
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-// SQL query to fetch admins
 $sql = "SELECT ID, Fullname, Email, User_lvl, Birthday FROM customers_info WHERE User_lvl = 2 AND (Fullname LIKE ? OR Email LIKE ?)";
 $stmt = $conn->prepare($sql);
 $search_term = "%" . $search . "%";
@@ -14,7 +18,6 @@ $result = $stmt->get_result();
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,13 +28,11 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="css/fullcalendar.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/tooplate.css">
-
     <style>
         .search-container {
             position: relative;
             width: 100%;
         }
-
         .search-input {
             width: calc(100% - 35px); 
             max-width: 500px;
@@ -41,12 +42,10 @@ $result = $stmt->get_result();
             border: 1px solid #ced4da;
             background-color: #f8f9fa;
         }
-
         .search-input:focus {
             border-color:rgb(116, 51, 13);
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
-
         .search-button {
             position: absolute;
             top: 20%;
@@ -58,30 +57,24 @@ $result = $stmt->get_result();
             font-size: 18px;
             cursor: pointer;
         }
-
         .search-button:hover {
             color: rgb(19, 121, 28);
         }
-
         table {
             background-color:#7ac27e; 
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-
         table th, table td {
             padding: 12px;
             text-align: left;
         }
-
         table th {
             background-color:rgb(73, 143, 85);
             color: white;
         }
-
         table td {
             background-color: #ffffff;
         }
-
         .create-button {
             display: flex;
             justify-content: flex-start;  
@@ -89,7 +82,6 @@ $result = $stmt->get_result();
             margin-bottom: 10px;
             margin-left: 10px; 
         }
-
         .create-button a {
             padding: 10px 20px; 
             background-color:rgb(189, 118, 71);  
@@ -102,26 +94,29 @@ $result = $stmt->get_result();
             transition: background-color 0.3s, transform 0.3s ease-in-out;
             display: inline-flex;
         }
-
         .create-button a:hover {
             background-color:rgb(73, 143, 85);  
             transform: translateY(-2px); 
         }
-
         .create-button a:active {
             transform: translateY(1px); 
         }
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
     </style>
 </head>
-
 <body id="reportsPage">
     <div class="" id="home">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <nav class="navbar navbar-expand-xl navbar-light bg-light">
-                        <a class="navbar-brand" href="#">
-                            <i class="fas fa-3x fa-tachometer-alt tm-site-icon"></i>
+                        <a class="navbar-brand" href="profile.php">
+                            <img src="uploads/<?php echo $profile_photo; ?>" alt="Profile Picture" class="profile-pic">
                         </a>
                         <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
