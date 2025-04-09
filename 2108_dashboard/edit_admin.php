@@ -4,7 +4,6 @@ include 'db_connection.php';
 $error = "";
 $success = "";
 
-// Fetch current data
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
 
@@ -20,28 +19,24 @@ if (isset($_GET['id'])) {
     exit();
 }
 
-// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $conn->real_escape_string($_POST['Fullname']);
     $email = $conn->real_escape_string($_POST['Email']);
     $birthday = $_POST['Birthday'];
     $billing_address = $conn->real_escape_string($_POST['Billing_Address']);
     
-    // Profile picture upload
-    $profile_photo = $admin['Profile_Photo']; // Default to existing photo if not updated
+    $profile_photo = $admin['Profile_Photo']; 
 
     if (isset($_FILES['Profile_Photo']) && $_FILES['Profile_Photo']['error'] == 0) {
         $target_dir = "uploads/";
         $target_file = $target_dir . basename($_FILES["Profile_Photo"]["name"]);
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-        // Check if file is an image
         $check = getimagesize($_FILES["Profile_Photo"]["tmp_name"]);
         if ($check === false) {
             $error = "File is not an image.";
         } else {
-            // Allow certain file formats
-            $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
+            $allowed_types = ['jpg', 'jpeg', 'png'];
             if (!in_array($imageFileType, $allowed_types)) {
                 $error = "Only JPG, JPEG, PNG, and GIF files are allowed.";
             } else {
@@ -54,13 +49,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Check if email is already used by another user
     $check_email = $conn->query("SELECT * FROM customers_info WHERE Email = '$email' AND ID != $id");
 
     if ($check_email->num_rows > 0) {
         $error = "The email is already in use by another account.";
     } else {
-        // Update the admin
         $update = "UPDATE customers_info SET 
             Fullname = '$fullname',
             Email = '$email',
@@ -159,11 +152,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             width: 48%;
         }
 
-        /* Custom style for the file input */
         input[type="file"] {
-            padding: 5px; /* Reduces the padding inside the file input */
-            font-size: 14px; /* Makes the text inside the file input smaller */
-            width: auto; /* Makes the input take only the space needed */
+            padding: 5px; 
+            font-size: 14px; 
+            width: auto;
         }
     </style>
 </head>
