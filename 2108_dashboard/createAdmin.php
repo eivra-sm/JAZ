@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $conn = new mysqli("localhost", "root", "", "jaz_creation"); // change if needed
+    $conn = new mysqli("localhost", "root", "", "jaz_creation"); 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
@@ -47,6 +47,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 
+<style>
+.create-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(197, 9, 9, 0.53);
+        }
+
+</style>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,79 +68,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard for Super Admin</title>
     
-    <!--
-    Template 2108 Dashboard
-	http://www.tooplate.com/view/2108-dashboard
-    -->
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
-    <!-- https://fonts.google.com/specimen/Open+Sans -->
     <link rel="stylesheet" href="css/fontawesome.min.css">
-    <!-- https://fontawesome.com/ -->
     <link rel="stylesheet" href="css/fullcalendar.min.css">
-    <!-- https://fullcalendar.io/ -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- https://getbootstrap.com/ -->
     <link rel="stylesheet" href="css/tooplate.css">
 </head>
 
+<a href="dashboardSuperad.php" class="btn btn-primary mb-4">← Back to Dashboard</a>
+
 <body id="reportsPage">
     <div class="" id="home">
-        <div class="container">
-            <div class="row">
+        <div class="create-container">
                 <div class="col-12">
-                    <nav class="navbar navbar-expand-xl navbar-light bg-light">
-                        <a class="navbar-brand" href="#">
-                            <i class="fas fa-3x fa-tachometer-alt tm-site-icon"></i>
-                        </a>
-                        <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav mx-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="dashboard.php">Sales
-                                    </a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="customers.php" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        Customers List
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="customersLi.php">Customers List</a>
-                                        <a class="dropdown-item" href="customersAr.php">Customers Archive</a>
-                                    </div>
-                                </li>
-                                    <a class="nav-link" href="createAdmin.php">Create Admin Account</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="orders.php">Orders</a>
-                                </li>
-    
-                            </ul>
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link d-flex" href="login.html">
-                                        <i class="far fa-user mr-2 tm-logout-icon"></i>
-                                        <span>Logout</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
+                    <h2 class="text-center mb-4">Create New Admin</h2>
                 </div>
-            </div>
-            <div class="row tm-mt-big">
-            <div class="col-xl-8 col-lg-10 col-md-12 col-sm-12">
-                <div class="bg-white tm-block">
-                    <div class="row">
-                        <div class="col-12">
-                            <h2 class="tm-block-title d-inline-block">Create New Admin</h2>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center align-items-center tm-mt-big">
                 <div class="tm-edit-product-form-container">
                     <form action="createAdmin.php" method="POST" enctype="multipart/form-data" class="tm-edit-product-form">
                         <div class="form-group">
@@ -169,18 +122,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </div>
             </div>
         </div>
-        <footer class="row tm-mt-big">
-            <div class="col-12 font-weight-light">
-            </div>
-        </footer>
+                <footer class="row tm-mt-big">
+                    <div class="col-12 font-weight-light">
+                    </div>
+                </footer>
     </div>
 
     <script src="js/jquery-3.3.1.min.js"></script>
-    <!-- https://jquery.com/download/ -->
     <script src="jquery-ui-datepicker/jquery-ui.min.js"></script>
-    <!-- https://jqueryui.com/download/ -->
     <script src="js/bootstrap.min.js"></script>
-    <!-- https://getbootstrap.com/ -->
     <script>
         $(function () {
             $('#expire_date').datepicker();
