@@ -17,13 +17,32 @@ $result = $conn->query($sql);
     <title>Archived Admins</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
         .search-container {
             position: relative;
             width: 100%;
         }
 
         .search-input {
-            width: calc(100% - 35px); 
+            width: calc(100% - 35px);
             max-width: 500px;
             padding: 10px 35px 10px 15px;
             font-size: 16px;
@@ -33,7 +52,7 @@ $result = $conn->query($sql);
         }
 
         .search-input:focus {
-            border-color:rgb(116, 51, 13);
+            border-color: rgb(116, 51, 13);
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
 
@@ -50,6 +69,61 @@ $result = $conn->query($sql);
 
         .search-button:hover {
             color: rgb(19, 121, 28);
+        }
+
+        .table {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .table th {
+            background-color:rgb(39, 131, 74);
+            color: white;
+            font-weight: bold;
+        }
+
+        .table td {
+            font-size: 14px;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .table-bordered td, .table-bordered th {
+            border: 1px solid #dee2e6;
+        }
+
+        .table-bordered th {
+            text-align: center;
+        }
+
+        .table-bordered td {
+            text-align: center;
+        }
+
+        .table-striped tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        .back-btn {
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -72,7 +146,7 @@ $result = $conn->query($sql);
         </div>
     </div>
 
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Fullname</th>
