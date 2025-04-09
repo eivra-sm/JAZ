@@ -6,14 +6,12 @@ session_start();?>
 $searchErr = '';
 $ar = array();
 $ar1 = array();
-// Initialize arrays BEFORE calling the function
 $ar_review = array();
 
-// Fetch all accounts
-$sql = "SELECT * FROM product_lists";
+
+$sql = "SELECT * FROM review";
 $review = $conn->query($sql);
 
-// Call the function and store the returned arrays properly
 $resultArrays = searchReviews($review);
 $ar_review = $resultArrays['review'];
 
@@ -27,9 +25,9 @@ function searchReviews($review) {
             'Account_ID' => $row["Account_ID"],
             'Review' => $row["Review"],
             'Date_Posted' => $row["Date_Posted"],
-            'status' => $row["status"]
+            'Archive_Status' => $row["Archive_Status"]
         ];
-        switch ($Obj['status']) {
+        switch ($Obj['Archive_Status']) {
             case 0:
                 $ar_review[] = $Obj;
                 break;
@@ -254,6 +252,12 @@ function searchReviews($review) {
                 window.location.href = "edit-product.html";
             });
         })
+        function restoreReview(id) {
+            let text = "Are you sure you want to \nArchive This Record?";
+            if(confirm(text) == true){
+                window.location="http://localhost/jaz/2108_dashboard/restoreReview.php?id="+id;
+            }
+        }
     </script>
 </body>
 </html>

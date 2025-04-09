@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2025 at 03:42 PM
+-- Generation Time: Apr 09, 2025 at 07:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,13 +24,14 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `archive_admin`
+-- Table structure for table `accounts`
 --
 
-CREATE TABLE `archive_admin` (
-  `Archive_ID` int(11) NOT NULL,
-  `Original_Customer_ID` int(11) DEFAULT NULL,
+CREATE TABLE `accounts` (
+  `Status_Archive` int(11) NOT NULL,
+  `Account_ID` int(11) NOT NULL,
   `Fullname` varchar(100) DEFAULT NULL,
+  `Email` varchar(30) NOT NULL,
   `User_lvl` int(11) DEFAULT 0,
   `Birthday` date DEFAULT NULL,
   `Billing_Address` varchar(255) DEFAULT NULL,
@@ -39,23 +40,15 @@ CREATE TABLE `archive_admin` (
   `Archived_At` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `archive_superadmin`
+-- Dumping data for table `accounts`
 --
 
-CREATE TABLE `archive_superadmin` (
-  `Archive_ID` int(11) NOT NULL,
-  `Original_Customer_ID` int(11) DEFAULT NULL,
-  `Fullname` varchar(100) DEFAULT NULL,
-  `User_lvl` int(11) DEFAULT 3,
-  `Birthday` date DEFAULT NULL,
-  `Billing_Address` varchar(255) DEFAULT NULL,
-  `Pword` varchar(255) DEFAULT NULL,
-  `Profile_Photo` varchar(255) DEFAULT NULL,
-  `Archived_At` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `accounts` (`Status_Archive`, `Account_ID`, `Fullname`, `Email`, `User_lvl`, `Birthday`, `Billing_Address`, `Pword`, `Profile_Photo`, `Archived_At`) VALUES
+(0, 23, 'zhongli', 'email@email.com', 0, '2025-04-09', 'awdawd', 'morax', 'awda', '2025-04-09 16:11:53'),
+(1, 34, 'raiden', 'email@email.com', 0, '2025-04-04', 'wadawfa', 'beelzebul', 'wdawd', '2025-04-09 16:11:53'),
+(0, 45, 'nahida', 'email@email.com', 0, '2025-04-07', 'awdawda', 'buer', 'awdawd', '2025-04-09 16:11:53'),
+(1, 123, 'venti', 'email@email.com', 0, '2025-04-09', 'fthrdg', 'barbatos', 'tgtg', '2025-04-09 16:11:53');
 
 -- --------------------------------------------------------
 
@@ -75,19 +68,6 @@ CREATE TABLE `customers_info` (
   `Created_At` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `customers_info`
---
-
-INSERT INTO `customers_info` (`ID`, `Fullname`, `Email`, `User_lvl`, `Birthday`, `Billing_Address`, `Pword`, `Profile_Photo`, `Created_At`) VALUES
-(1, 'Arvie M. Sinocruz', 'arvie@gmail.com', 2, '2004-09-13', 'Blk 4 Kaingin 1 Brgy. Pansol, Quezon City', 'Wow_magic', 'uploads/1744123236_SINOCRUZ ARVIE - CREATIVE - FEU (3).JPG', '2025-04-08 14:40:36'),
-(2, 'Zyann Lynn C. Mayo', 'lynn@gmail.com', 2, '2004-09-20', 'Far Eastern University', 'lynnlang', NULL, '2025-04-09 07:56:27'),
-(3, 'Juliana Rose P. Rogel', 'rose@gmail.com', 2, '2006-04-18', 'Far Eastern University', 'rose_', '', '2025-04-09 05:17:51'),
-(4, 'Superadmin', 'downloads/superadmin@gmail.com', 1, '2004-09-13', 'Far Eastern University', 'supernova', 'supernova.jpg', '2025-04-09 11:07:03'),
-(6, 'Consuelo B. Mercado', 'cielo@gmail.com', 3, '2004-03-11', 'Far Eastern University', 'ensaymada', NULL, '2025-04-09 06:51:22'),
-(7, 'Gabriel L. Tagaytay', 'gab@gmail.com', 3, '2025-06-11', 'Far Eastern University', 'marahuyo', NULL, '2025-04-09 07:08:52'),
-(8, 'Elisha Mae Borromeo', 'sophia@gmail.com', 3, '2025-03-18', 'Far Eastern University', 'award', NULL, '2025-04-09 07:08:52');
-
 -- --------------------------------------------------------
 
 --
@@ -103,15 +83,6 @@ CREATE TABLE `order_lists` (
   `Status` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `order_lists`
---
-
-INSERT INTO `order_lists` (`Order_ID`, `Customer_ID`, `Product_ID`, `Quantity`, `Order_Date`, `Status`) VALUES
-(1, 6, 3, 1, '2025-04-09 07:06:53', 'Processing'),
-(2, 8, 1, 1, '2025-04-09 07:10:49', 'Shipped'),
-(3, 7, 2, 3, '2025-04-09 07:10:49', 'Delivered');
-
 -- --------------------------------------------------------
 
 --
@@ -126,17 +97,43 @@ CREATE TABLE `product_lists` (
   `Stock` int(11) DEFAULT NULL,
   `Category` varchar(100) DEFAULT NULL,
   `Images` varchar(255) DEFAULT NULL,
-  `Created_At` timestamp NOT NULL DEFAULT current_timestamp()
+  `Created_At` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Archive_Status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product_lists`
 --
 
-INSERT INTO `product_lists` (`Product_ID`, `Product_Name`, `Descrip`, `Price`, `Stock`, `Category`, `Images`, `Created_At`) VALUES
-(1, 'Farra Console', 'Matting: Sariki Natural\r\nDimensions: 155 x 45 x 84 Hcm', 75500.00, 10, 'Tables', 'Farra_Console.jpg', '2025-04-09 06:58:51'),
-(2, 'Alva Dining Chair', 'Dimensions: 48.5 x 55.8 x 82.5 Hcm', 17000.00, 16, 'Seating', 'Alva_Dining_Chair.jpg', '2025-04-09 07:03:05'),
-(3, 'Polk Bed', 'Dimension: Double Bed - 149 x 211 x 135 Hcm', 86000.00, 5, 'Beds', 'Polk_Bed.jpg', '2025-04-09 07:06:08');
+INSERT INTO `product_lists` (`Product_ID`, `Product_Name`, `Descrip`, `Price`, `Stock`, `Category`, `Images`, `Created_At`, `Archive_Status`) VALUES
+(1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-09 16:38:46', 1),
+(2, 'ftjf', 'fjtf', 6.00, 5, 'tyj', 'egegr', '2025-04-09 16:38:46', 0),
+(3, 'awda', 'awd', 3.00, 2, 'awdaw', 'awda', '2025-04-09 16:38:46', 0),
+(4, 'awdaw', 'awdwa', 9.00, 23, 'wdawda', 'awda', '2025-04-09 16:38:46', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review`
+--
+
+CREATE TABLE `review` (
+  `Review_ID` int(11) NOT NULL,
+  `Account_ID` int(11) NOT NULL,
+  `Review` text DEFAULT NULL,
+  `Date_Posted` datetime DEFAULT current_timestamp(),
+  `Archive_Status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `review`
+--
+
+INSERT INTO `review` (`Review_ID`, `Account_ID`, `Review`, `Date_Posted`, `Archive_Status`) VALUES
+(1, 123, NULL, '2025-04-10 00:56:21', 0),
+(2, 23, NULL, '2025-04-10 00:56:21', 1),
+(3, 123, NULL, '2025-04-10 00:56:21', 0),
+(4, 34, NULL, '2025-04-10 00:56:21', 1);
 
 -- --------------------------------------------------------
 
@@ -159,16 +156,10 @@ CREATE TABLE `sales_summary` (
 --
 
 --
--- Indexes for table `archive_admin`
+-- Indexes for table `accounts`
 --
-ALTER TABLE `archive_admin`
-  ADD PRIMARY KEY (`Archive_ID`);
-
---
--- Indexes for table `archive_superadmin`
---
-ALTER TABLE `archive_superadmin`
-  ADD PRIMARY KEY (`Archive_ID`);
+ALTER TABLE `accounts`
+  ADD PRIMARY KEY (`Account_ID`);
 
 --
 -- Indexes for table `customers_info`
@@ -192,6 +183,13 @@ ALTER TABLE `product_lists`
   ADD PRIMARY KEY (`Product_ID`);
 
 --
+-- Indexes for table `review`
+--
+ALTER TABLE `review`
+  ADD PRIMARY KEY (`Review_ID`),
+  ADD KEY `Account_ID` (`Account_ID`);
+
+--
 -- Indexes for table `sales_summary`
 --
 ALTER TABLE `sales_summary`
@@ -203,40 +201,40 @@ ALTER TABLE `sales_summary`
 --
 
 --
--- AUTO_INCREMENT for table `archive_admin`
+-- AUTO_INCREMENT for table `accounts`
 --
-ALTER TABLE `archive_admin`
-  MODIFY `Archive_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `archive_superadmin`
---
-ALTER TABLE `archive_superadmin`
-  MODIFY `Archive_ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `accounts`
+  MODIFY `Account_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `customers_info`
 --
 ALTER TABLE `customers_info`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `order_lists`
 --
 ALTER TABLE `order_lists`
-  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_lists`
 --
 ALTER TABLE `product_lists`
-  MODIFY `Product_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Product_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `review`
+--
+ALTER TABLE `review`
+  MODIFY `Review_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `sales_summary`
 --
 ALTER TABLE `sales_summary`
-  MODIFY `Sale_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Sale_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22222223;
 
 --
 -- Constraints for dumped tables
@@ -248,6 +246,12 @@ ALTER TABLE `sales_summary`
 ALTER TABLE `order_lists`
   ADD CONSTRAINT `order_lists_ibfk_1` FOREIGN KEY (`Customer_ID`) REFERENCES `customers_info` (`ID`),
   ADD CONSTRAINT `order_lists_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product_lists` (`Product_ID`);
+
+--
+-- Constraints for table `review`
+--
+ALTER TABLE `review`
+  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`Account_ID`) REFERENCES `accounts` (`Account_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sales_summary`

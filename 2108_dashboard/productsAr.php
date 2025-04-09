@@ -30,9 +30,10 @@ function searchProds($prods) {
             'Stock' => $row["Stock"],
             'Category' => $row["Category"],
             'Images' => $row["Images"],
-            'Created_At' => $row["Created_At"]
+            'Created_At' => $row["Created_At"],
+            'Archive_Status' => $row["Archive_Status"]
         ];
-        switch ($Obj['status']) {
+        switch ($Obj['Archive_Status']) {
             case 0:
                 $ar_prods[] = $Obj;
                 break;
@@ -215,7 +216,7 @@ function searchProds($prods) {
                     <?php
                         foreach ($ar_prods as $user) {
                             $tr = "<tr>";
-                            $tr .= "<td>";
+                            $tr .= "<td>"; 
                             $id = $user['Product_ID'];
                             $tr .= $user['Product_ID'];
                             $tr .= "</td>";
@@ -271,7 +272,7 @@ function searchProds($prods) {
         function restoreProducts(id) {
             let text = "Are you sure you want to \nRestore This Product?";
             if(confirm(text) == true){
-                window.location="http://localhost/RadAl/restoreProducts.php?id="+id;
+                window.location="http://localhost/jaz/2108_dashboard/restoreProducts.php?id="+id;
             }
         }
     </script>

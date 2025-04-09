@@ -34,7 +34,7 @@ function searchAccs($accs) {
             'Profile_Photo' => $row["Profile_Photo"],
             'Archived_At' => $row["Archived_At"]
         ];
-        switch ($Obj['status']) {
+        switch ($Obj['Status_Archive']) {
             case 0:
                 $ar_accs[] = $Obj;
                 break;
@@ -213,7 +213,7 @@ function searchAccs($accs) {
                             </tr>
                             </thead>
                             <tbody>
-                    <?php
+                    <?php 
                         foreach ($ar_accs as $user) {
                             $tr = "<tr>";
                             $tr .= "<td>";
@@ -275,7 +275,7 @@ function searchAccs($accs) {
         function restoreUsers(id) {
             let text = "Are you sure you want to \nRestore This Account?";
             if(confirm(text) == true){
-                window.location="http://localhost/RadAl/restoreUsers.php?id="+id;
+                window.location="http://localhost/jaz/2108_dashboard/restoreUsers.php?id="+id;
             }
         }
     </script>

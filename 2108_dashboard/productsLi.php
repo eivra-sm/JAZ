@@ -30,9 +30,10 @@ function searchProds($prods) {
             'Stock' => $row["Stock"],
             'Category' => $row["Category"],
             'Images' => $row["Images"],
-            'Created_At' => $row["Created_At"]
+            'Created_At' => $row["Created_At"],
+            'Archive_Status' => $row["Archive_Status"]
         ];
-        switch ($Obj['status']) {
+        switch ($Obj['Archive_Status']) {
             case 1:
                 $ar_prods[] = $Obj;
                 break;
@@ -118,7 +119,7 @@ function searchProds($prods) {
 </style>
 
 <body id="reportsPage">
-    <div class="" id="home">
+    <div class="" id="home"> 
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -245,10 +246,10 @@ function searchProds($prods) {
                             $tr .= $user['Created_At'];
                             $tr .= "</td>";         
                             $tr .= "<td>";
-                            $tr .= "<button class='btn' onclick='updateUsers($id)'>Edit</button>";
+                            $tr .= "<button class='btn' onclick='updateProducts($id)'>Edit</button>";
                             $tr .= "</td>";
                             $tr .= "<td>";
-                            $tr .= "<button class='btn' onclick='archiveUsers($id)'>Archive</button>";
+                            $tr .= "<button class='btn' onclick='archiveProducts($id)'>Archive</button>";
                             $tr .= "</td>";
                             $tr .= "</tr>";
                             echo $tr;
@@ -275,10 +276,10 @@ function searchProds($prods) {
     <script src="js/bootstrap.min.js"></script>
     <!-- https://getbootstrap.com/ -->
     <script>
-        function restoreProducts(id) {
-            let text = "Are you sure you want to \nRestore This Product?";
+        function archiveProducts(id) {
+            let text = "Are you sure you want to \nArchive This Record?";
             if(confirm(text) == true){
-                window.location="http://localhost/RadAl/restoreProducts.php?id="+id;
+                window.location="http://localhost/jaz/2108_dashboard/archiveProducts.php?id="+id;
             }
         }
     </script>

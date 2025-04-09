@@ -34,7 +34,7 @@ function searchAccs($accs) {
             'Profile_Photo' => $row["Profile_Photo"],
             'Archived_At' => $row["Archived_At"]
         ];
-        switch ($Obj['status']) {
+        switch ($Obj['Status_Archive']) {
             case 1:
                 $ar_accs[] = $Obj;
                 break;
@@ -216,7 +216,7 @@ function searchAccs($accs) {
                                 <th>Edit</th>
                                 <th>Archive</th>
                             </tr>
-                            </thead>
+                            </thead> 
                             <tbody>
                     <?php
                         foreach ($ar_accs as $user) {
@@ -283,13 +283,13 @@ function searchAccs($accs) {
         function archiveUsers(id) {
             let text = "Are you sure you want to \nArchive This Record?";
             if(confirm(text) == true){
-                window.location="http://localhost/RadAl/archiveUsers.php?id="+id;
+                window.location="http://localhost/jaz/2108_dashboard/archiveUsers.php?id="+id;
             }
         }
         function addUsers() {
             let confirmAction = confirm("Are you sure you want to add a new user?");
             if (confirmAction) {
-                window.location = "http://localhost/RadAl/addUsers.php";
+                window.location = "http://localhost//addUsers.php";
             }
         }
     </script>
