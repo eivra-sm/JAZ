@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2025 at 07:04 PM
+-- Generation Time: Apr 16, 2025 at 03:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,35 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accounts`
---
-
-CREATE TABLE `accounts` (
-  `Status_Archive` int(11) NOT NULL,
-  `Account_ID` int(11) NOT NULL,
-  `Fullname` varchar(100) DEFAULT NULL,
-  `Email` varchar(30) NOT NULL,
-  `User_lvl` int(11) DEFAULT 0,
-  `Birthday` date DEFAULT NULL,
-  `Billing_Address` varchar(255) DEFAULT NULL,
-  `Pword` varchar(255) DEFAULT NULL,
-  `Profile_Photo` varchar(255) DEFAULT NULL,
-  `Archived_At` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `accounts`
---
-
-INSERT INTO `accounts` (`Status_Archive`, `Account_ID`, `Fullname`, `Email`, `User_lvl`, `Birthday`, `Billing_Address`, `Pword`, `Profile_Photo`, `Archived_At`) VALUES
-(0, 23, 'zhongli', 'email@email.com', 0, '2025-04-09', 'awdawd', 'morax', 'awda', '2025-04-09 16:11:53'),
-(1, 34, 'raiden', 'email@email.com', 0, '2025-04-04', 'wadawfa', 'beelzebul', 'wdawd', '2025-04-09 16:11:53'),
-(0, 45, 'nahida', 'email@email.com', 0, '2025-04-07', 'awdawda', 'buer', 'awdawd', '2025-04-09 16:11:53'),
-(1, 123, 'venti', 'email@email.com', 0, '2025-04-09', 'fthrdg', 'barbatos', 'tgtg', '2025-04-09 16:11:53');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `customers_info`
 --
 
@@ -65,8 +36,26 @@ CREATE TABLE `customers_info` (
   `Billing_Address` varchar(255) DEFAULT NULL,
   `Pword` varchar(255) DEFAULT NULL,
   `Profile_Photo` varchar(255) DEFAULT NULL,
-  `Created_At` timestamp NOT NULL DEFAULT current_timestamp()
+  `Created_At` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Archive_ID` int(11) DEFAULT NULL,
+  `Archived_At` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `customers_info`
+--
+
+INSERT INTO `customers_info` (`ID`, `Fullname`, `Email`, `User_lvl`, `Birthday`, `Billing_Address`, `Pword`, `Profile_Photo`, `Created_At`, `Archive_ID`, `Archived_At`) VALUES
+(1, 'Arvie M. Sinocruz', 'arvie@gmail.com', 2, '2004-09-13', 'Blk 4 Kaingin 1 Brgy. Pansol, Quezon City', 'Wow_magic', 'uploads/1744123236_SINOCRUZ ARVIE - CREATIVE - FEU (3).JPG', '2025-04-08 14:40:36', NULL, '2025-04-11 04:37:04'),
+(2, 'Zyann Lynn C. Mayo', 'zyann1@gmail.com', 2, '2004-09-20', 'Far Eastern University', 'lynnlang', '', '2025-04-09 09:17:40', NULL, '2025-04-11 04:37:04'),
+(3, 'Juliana Rose ', 'rose@gmail.com', 3, '2006-04-18', 'FEU', 'rose_', '', '2025-04-10 19:24:53', 935, '2025-04-11 02:53:04'),
+(4, 'Superadmin', 'superadmin@gmail.com', 1, '2004-09-13', 'Far Eastern University', 'supernova', 'DSC06425.JPG', '2025-04-09 11:07:03', NULL, '2025-04-11 04:37:04'),
+(6, 'Consuelo B. Mercado', 'cielo@gmail.com', 3, '2004-03-11', 'Far Eastern University', 'ensaymada', NULL, '2025-04-09 06:51:22', 509, '2025-04-10 22:41:30'),
+(7, 'Gabriel L. Tagaytay', 'gab@gmail.com', 3, '2025-06-11', 'Far Eastern University', 'marahuyo', NULL, '2025-04-09 07:08:52', NULL, '2025-04-11 04:37:04'),
+(8, 'Elisha Mae Borromeo', 'sophia@gmail.com', 3, '2025-03-18', 'Far Eastern University', 'award', NULL, '2025-04-09 07:08:52', NULL, '2025-04-11 04:37:04'),
+(20, 'Edward Andaya', 'edwi@gmail.com', 3, '1970-04-11', 'Far Eastern University', 'edwardpogi', 'uploads/1744336215_edward.jpg', '2025-04-10 21:03:31', 553, '2025-04-10 22:50:37'),
+(30, 'Oh Ae-sun', 'tangerines@gmail.com', 3, '1970-09-09', 'Jeju Island', 'geumeundong', '', '2025-04-11 05:22:22', 304, '2025-04-11 00:06:17'),
+(33, 'aasdfghj', 'asdfgh@gmail.com', 0, '1999-05-23', 'asdfghjkl', 'asdfghjk', '', '2025-04-11 07:35:13', 645, '2025-04-11 01:37:09');
 
 -- --------------------------------------------------------
 
@@ -80,8 +69,18 @@ CREATE TABLE `order_lists` (
   `Product_ID` int(11) DEFAULT NULL,
   `Quantity` int(11) DEFAULT NULL,
   `Order_Date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Status` varchar(50) DEFAULT NULL
+  `Status` varchar(50) DEFAULT NULL,
+  `Total_Amount` decimal(25,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_lists`
+--
+
+INSERT INTO `order_lists` (`Order_ID`, `Customer_ID`, `Product_ID`, `Quantity`, `Order_Date`, `Status`, `Total_Amount`) VALUES
+(1, 6, 3, 1, '2025-04-09 07:06:53', 'Processing', 86000),
+(2, 8, 1, 1, '2025-04-09 07:10:49', 'Shipped', 75500),
+(3, 7, 2, 3, '2025-04-09 07:10:49', 'Delivered', 21000);
 
 -- --------------------------------------------------------
 
@@ -98,42 +97,19 @@ CREATE TABLE `product_lists` (
   `Category` varchar(100) DEFAULT NULL,
   `Images` varchar(255) DEFAULT NULL,
   `Created_At` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Archive_Status` int(11) NOT NULL
+  `Archive_ID` int(11) DEFAULT NULL,
+  `Archived_At` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product_lists`
 --
 
-INSERT INTO `product_lists` (`Product_ID`, `Product_Name`, `Descrip`, `Price`, `Stock`, `Category`, `Images`, `Created_At`, `Archive_Status`) VALUES
-(1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-09 16:38:46', 1),
-(2, 'ftjf', 'fjtf', 6.00, 5, 'tyj', 'egegr', '2025-04-09 16:38:46', 0),
-(3, 'awda', 'awd', 3.00, 2, 'awdaw', 'awda', '2025-04-09 16:38:46', 0),
-(4, 'awdaw', 'awdwa', 9.00, 23, 'wdawda', 'awda', '2025-04-09 16:38:46', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `review`
---
-
-CREATE TABLE `review` (
-  `Review_ID` int(11) NOT NULL,
-  `Account_ID` int(11) NOT NULL,
-  `Review` text DEFAULT NULL,
-  `Date_Posted` datetime DEFAULT current_timestamp(),
-  `Archive_Status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `review`
---
-
-INSERT INTO `review` (`Review_ID`, `Account_ID`, `Review`, `Date_Posted`, `Archive_Status`) VALUES
-(1, 123, NULL, '2025-04-10 00:56:21', 0),
-(2, 23, NULL, '2025-04-10 00:56:21', 1),
-(3, 123, NULL, '2025-04-10 00:56:21', 0),
-(4, 34, NULL, '2025-04-10 00:56:21', 1);
+INSERT INTO `product_lists` (`Product_ID`, `Product_Name`, `Descrip`, `Price`, `Stock`, `Category`, `Images`, `Created_At`, `Archive_ID`, `Archived_At`) VALUES
+(1, 'Farra Console', 'Matting: Sariki NaturalDimensions: 155 x 45 x 84 Hcm', 75500.00, 17, 'Tables', 'Farra_Console.jpg', '2025-04-09 06:58:51', 1, '2025-04-11 02:37:07'),
+(2, 'Alva Dining Chair', 'Dimensions: 48.5 x 55.8 x 82.5 Hcm', 17000.00, 16, 'Seating', 'Alva_Dining_Chair.jpg', '2025-04-09 07:03:05', 0, '2025-04-11 00:08:21'),
+(3, 'Polk Bed', 'Dimension: Double Bed - 149 x 211 x 135 Hcm', 86000.00, 5, 'Beds', 'Polk_Bed.jpg', '2025-04-09 07:06:08', 1, '2025-04-11 00:08:18'),
+(7, 'Upuan', 'Upuan', 500.00, 7, 'Seats', '', '2025-04-11 08:56:06', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -145,6 +121,7 @@ CREATE TABLE `sales_summary` (
   `Sale_ID` int(11) NOT NULL,
   `Order_ID` int(11) DEFAULT NULL,
   `Price` decimal(10,2) DEFAULT NULL,
+  `Quantity` int(11) NOT NULL,
   `Total_Amount` decimal(10,2) DEFAULT NULL,
   `Payment_Status` varchar(50) DEFAULT NULL,
   `Order_Status` varchar(50) DEFAULT NULL,
@@ -152,14 +129,17 @@ CREATE TABLE `sales_summary` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Indexes for dumped tables
+-- Dumping data for table `sales_summary`
 --
 
+INSERT INTO `sales_summary` (`Sale_ID`, `Order_ID`, `Price`, `Quantity`, `Total_Amount`, `Payment_Status`, `Order_Status`, `Order_Date`) VALUES
+(1, 1, 86000.00, 1, 86000.00, 'Downpayment', 'Processing', '2025-04-09 14:59:25'),
+(2, 2, 75500.00, 1, 75500.00, 'Paid', 'Shipped', '2025-04-09 14:59:25'),
+(3, 3, 17000.00, 3, 21000.00, 'Paid', 'Delivered', '2025-04-09 14:59:58');
+
 --
--- Indexes for table `accounts`
+-- Indexes for dumped tables
 --
-ALTER TABLE `accounts`
-  ADD PRIMARY KEY (`Account_ID`);
 
 --
 -- Indexes for table `customers_info`
@@ -183,13 +163,6 @@ ALTER TABLE `product_lists`
   ADD PRIMARY KEY (`Product_ID`);
 
 --
--- Indexes for table `review`
---
-ALTER TABLE `review`
-  ADD PRIMARY KEY (`Review_ID`),
-  ADD KEY `Account_ID` (`Account_ID`);
-
---
 -- Indexes for table `sales_summary`
 --
 ALTER TABLE `sales_summary`
@@ -201,40 +174,28 @@ ALTER TABLE `sales_summary`
 --
 
 --
--- AUTO_INCREMENT for table `accounts`
---
-ALTER TABLE `accounts`
-  MODIFY `Account_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
-
---
 -- AUTO_INCREMENT for table `customers_info`
 --
 ALTER TABLE `customers_info`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `order_lists`
 --
 ALTER TABLE `order_lists`
-  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Order_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `product_lists`
 --
 ALTER TABLE `product_lists`
-  MODIFY `Product_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `review`
---
-ALTER TABLE `review`
-  MODIFY `Review_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Product_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `sales_summary`
 --
 ALTER TABLE `sales_summary`
-  MODIFY `Sale_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22222223;
+  MODIFY `Sale_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -246,12 +207,6 @@ ALTER TABLE `sales_summary`
 ALTER TABLE `order_lists`
   ADD CONSTRAINT `order_lists_ibfk_1` FOREIGN KEY (`Customer_ID`) REFERENCES `customers_info` (`ID`),
   ADD CONSTRAINT `order_lists_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product_lists` (`Product_ID`);
-
---
--- Constraints for table `review`
---
-ALTER TABLE `review`
-  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`Account_ID`) REFERENCES `accounts` (`Account_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sales_summary`
